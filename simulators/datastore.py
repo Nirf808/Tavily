@@ -4,7 +4,7 @@ from simulators.redis_sim import RedisSimulator
 from simulators.kafka_sim import KafkaSimulator
 from simulators.s3_sim import S3Simulator
 from simulators.elasticsearch_sim import ElasticsearchSimulator
-from simulators.dispatcher_mode import DispatcherMode
+from core.dispatcher_mode import DispatcherMode
 
 @dataclass
 class DataStore:

@@ -1,7 +1,8 @@
 import asyncio
 from typing import List, Tuple
 from simulators import DataStore
-from simulators.dispatcher_mode import DispatcherMode
+from core.dispatcher_mode import DispatcherMode
+from core.batch_processor import batch_processor_loop
 from core.dispatcher import dispatcher_loop
 from core.scheduler import scheduler_loop
 from core.crawler import Crawler
@@ -28,6 +29,7 @@ def start_components(datastore: DataStore) -> Tuple[List[asyncio.Task], List[asy
         asyncio.create_task(dispatcher_loop(datastore)),
         asyncio.create_task(scheduler_loop(datastore)),
         asyncio.create_task(url_process_loop(datastore)),
+        asyncio.create_task(batch_processor_loop(datastore)),
         asyncio.create_task(telemetry_loop(datastore)),
     ]
     worker_tasks = [spawn_worker(datastore, i) for i in range(INITIAL_WORKERS)]

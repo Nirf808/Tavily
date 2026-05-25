@@ -37,8 +37,6 @@ def _apply_priority_levels(datastore: DataStore, ranked_urls: List[Tuple[str, in
     lower_cutoff = total_urls // 3
     middle_cutoff = (2 * total_urls) // 3
 
-    print(f"[BatchProcessor] Applying priorities to {total_urls} URLs")
-
     for index, (url, _) in enumerate(ranked_urls):
         record = datastore.cassandra.source_of_truth.get(url)
         if record is None:

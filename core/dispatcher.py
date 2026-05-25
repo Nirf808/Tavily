@@ -3,7 +3,7 @@ import time
 from urllib.parse import urlparse
 from datetime import datetime
 from simulators import DataStore, PageRecord
-from simulators.dispatcher_mode import DispatcherMode
+from core.dispatcher_mode import DispatcherMode
 
 DISPATCHER_MODE_DELAYS = {
     DispatcherMode.FAST: 1.0,
@@ -31,6 +31,7 @@ async def dispatcher_loop(datastore: DataStore):
             nxt_fetch = record.next_time_to_fetch or current_time
             domain = urlparse(url).netloc
             record.domain = domain
+            _sync_priority_from_source_of_truth(record, datastore)
 
             await datastore.redis.pages_queues[domain].zadd(url, nxt_fetch, metadata=record)
 
@@ -41,3 +42,10 @@ async def dispatcher_loop(datastore: DataStore):
             await datastore.redis.update_domain_queue(domain, min_nxt_fetch)
 
         await asyncio.sleep(get_dispatcher_delay(datastore))
+
+
+def _sync_priority_from_source_of_truth(record: PageRecord, datastore: DataStore) -> None:
+    source_record = datastore.cassandra.source_of_truth.get(record.url)
+    if source_record is None:
+        return
+    record.priority_score = source_record.priority_score

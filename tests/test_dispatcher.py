@@ -7,7 +7,7 @@ import pytest
 from simulators.datastore import DataStore
 from simulators.models import PageRecord
 
-import core.dispatcher as dispatcher
+from core.dispatcher import Dispatcher, dispatcher_loop
 
 
 @pytest.mark.asyncio
@@ -24,7 +24,8 @@ async def test_dispatcher_promotes_time_bucket_into_redis_pages_and_domains():
     ds.cassandra.time_buckets[hour_str].append(rec)
 
     # run dispatcher loop briefly
-    task = asyncio.create_task(dispatcher.dispatcher_loop(ds))
+    dispatcher = Dispatcher(ds)
+    task = asyncio.create_task(dispatcher_loop(ds, dispatcher))
     await asyncio.sleep(0.2)
     task.cancel()
     try:

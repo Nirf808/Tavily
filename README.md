@@ -7,11 +7,13 @@ This repository is a local Python simulation of a crawl scheduler pipeline. It f
 ### Run the simulator
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Nirf808/Tavily.git
 cd TavilyPython
 pip install -r requirement.txt
 python main.py
 ```
+
+`main.py` runs the full simulation end to end and prints logs from telemetry and the core components so you can see the system behavior in real time.
 
 ### Run the unit tests
 

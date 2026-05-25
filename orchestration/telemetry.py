@@ -1,5 +1,6 @@
 import asyncio
 from simulators import DataStore
+from core.dispatcher import Dispatcher
 
 SLEEP_BETWEEN_SAMPLES = 3
 
@@ -14,7 +15,7 @@ class TelemetryTracker:
 
 tracker = TelemetryTracker()
 
-async def telemetry_loop(datastore: DataStore):
+async def telemetry_loop(datastore: DataStore, dispatcher: Dispatcher):
     """Periodically logs system health and throughput to the console."""
     while True:
         await asyncio.sleep(SLEEP_BETWEEN_SAMPLES)
@@ -25,5 +26,5 @@ async def telemetry_loop(datastore: DataStore):
         print(
             f"[Metrics] Fetched: {tracker.pages_fetched} (New: {tracker.new_pages_fetched}, Refetched: {tracker.refetched_pages}) | Failed: {tracker.pages_failed} | "
             f"Pending - Redis Sorted Set: {pages_pending} | Pending - Pages Topic: {mq_pending} | "
-            f"Dispatcher: {datastore.dispatcher_mode.value} | S3 Raw Storage: {len(datastore.s3.raw_content)}"
+            f"Dispatcher: {dispatcher.get_mode().value} | S3 Raw Storage: {len(datastore.s3.raw_content)}"
         )

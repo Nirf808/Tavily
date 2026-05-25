@@ -1,0 +1,35 @@
+INITIAL_WORKERS = 25
+MAX_WORKERS = 52
+
+# Generator / Domain seeding
+INITIAL_DOMAIN_COUNT = 200
+INITIAL_URLS_PER_DOMAIN = 20
+NEW_DOMAINS_PER_SECOND = 5
+NEW_URLS_PER_DOMAIN = 10
+PROB_NEW_URL = 0.10
+
+# Default allowed requests per second applied when seeding domains
+DEFAULT_DOMAIN_ALLOWED_RPS = 8
+
+# Redis keys used in domain state dicts
+REDIS_KEY_NEXT_ALLOWED_TIME = "next_allowed_time_to_fetch"
+REDIS_KEY_ALLOWED_RPS = "allowed_requests_per_second"
+
+# Scheduler / queue sizes
+DOMAIN_QUEUE_BATCH_SIZE = 1000
+
+# Crawler worker settings
+PAGES_FETCH_BATCH_SIZE = 50
+DEFAULT_CRAWLER_ALLOWED_RPS = 4
+
+# URL processing defaults
+DEFAULT_URL_PRIORITY_SCORE = 1.0
+DEFAULT_URL_UPDATE_FREQUENCY = 3600.0
+DEFAULT_URL_FIRST_FETCH = True
+DEFAULT_URL_NEXT_FETCH_DELAY = 300
+
+# Orchestration / scaler
+SCALE_UP_THRESHOLD = 200
+SCALE_CHECK_INTERVAL = 2.0
+REDIS_PENDING_MEDIUM_THRESHOLD = 200
+REDIS_PENDING_SLOW_THRESHOLD = 500
